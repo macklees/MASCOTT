@@ -9,13 +9,11 @@
 		* serialport.js (https://github.com/voodootikigod/node-serialport)
 
 	To call it type:
-		node SerialToJSON.js portname
+		node index.js portname
 
 	where portname is the path to the serial port you want to open.
 
-	created 1 Nov 2012
-	modified 7 Nov 2012
-	by Tom Igoe
+	created 1 Nov 2012 by Tom Igoe.
 
 */
 
@@ -24,6 +22,7 @@ var express = require('express');
 var app = express();                              // start Express framework
 var server = require('http').createServer(app);		// start an HTTP server
 var io = require('socket.io').listen(server);		  // filter the server using socket.io
+var path = require("path");
 
 var portName = process.argv[2];						// third word of the command line should be serial port name
 console.log("opening serial port: " + portName);	// print out the port you're listening on
@@ -37,6 +36,8 @@ var myPort = new SerialPort(portName, {
 	// look for return and newline at the end of each data packet:
 	parser: SerialPort.parsers.readline("\r\n")
 });
+
+app.use( express.static( path.join(__dirname, 'static') ) )
 
 // respond to web GET requests with the index.html page:
 app.get('/', function (req, res) {

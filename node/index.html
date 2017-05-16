@@ -7,18 +7,28 @@
 
 		 // when you get a serialdata event, do this:
 		socket.on('serialEvent', function (data) {
-			// you're going to move the div in the HTML:
-			var element = document.getElementById('textDisplay');
-			element.innerHTML =
-			"Name:" + data.name + "<br>" +
-			"id:" + data.id +
-			"params:" + data.params + 
-			;
+
+			// Remove waiting text.
+			var waiting = document.getElementById("waiting");
+			waiting.parentNode.removeChild(waiting);
+
+			var nameEL = document.getElementById('nameEL');
+			nameEL.classList.add('data');
+			nameEL.innerHTML = "Name:" + data.name + "<br>";
+
+			var idEL = document.getElementById('idEL');
+			idEL.classList.add('data');
+			idEL.innerHTML = "id:" + data.id + "<br>";
+
+			var paramEL = document.getElementById('paramEL');
+			paramEL.classList.add('data');
+			paramEL.innerHTML = "params:" + data.params;
+
 		});
 	</script>
-
+	<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
-	<div id="textDisplay">Hello</p>
+	<div id="waiting">Waiting for data…</p>
 	</body>
 </html>
