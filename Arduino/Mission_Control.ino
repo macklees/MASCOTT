@@ -14,14 +14,11 @@ const byte NEWLINE_CHAR = 0x0A;
 // information for extracting the fields from the larger message
 
 // maximum number of fields to extract from a single message
-// can be made larger -- only limited by memory available
+// can be made larger—only limited by memory available
 const int MAX_FIELDS = 4;
 
 // initialize the serial port for the xBee with whatever pins are used for it
 SoftwareSerial xBee(2, 3); // (TX, RX) : pins on XBee adapter
-
-// declare a button to be used for input, without a pulldown resistor on the board
-Button butt(7, INPUT_PULLUP);
 
 int butter = 0;     // counts the number of times the button has been clicked
 int messages = 0;   // counts the number of messages that have been received
@@ -42,37 +39,6 @@ void setup()  {
 
 
 void loop() {
-
-  // look for button happenings
-  int action = butt.checkButtonAction();
-
-  // count the number of times it is clicked, and
-  // send a message on the XBee each time
-  if (action == Button::CLICKED) {
-
-    butter++;    // increment the counter
-
-    // format the message to be sent:
-    // this example uses a tab to delimit fields and ends it with a newLine termminator
-    // you can do whatever you want in your message
-    // AS LONG AS YOU END IT WITH THE NEWLINE CHARACTER
-    // that is needed for the receiver to detect the end of a message
-    String msg = myNodeName + "\t" + butter + "\t" + "Take me to your leader." + "\n";
-
-    // blink the LED, beep the piezo, and send the message (also to our serial monitor window)
-    digitalWrite(ledPin, HIGH);
-    tone(beepPin, 440, 150);
-    Serial.print(msg);
-    xBee.print(msg);
-    digitalWrite(ledPin, LOW);
-  }
-
-  // hold-clicking the button resets the counter to zero
-  else if (action == Button::HELD_CLICKED) {
-    butter = 0;
-    tone(beepPin, 880, 150);
-    Serial.println(butter);
-  }
 
   // check to see if any complete incoming messages are ready
   String msg = checkMessageReceived();
@@ -139,7 +105,7 @@ void loop() {
       sending = false;
       break;
     }
-  
+
     if (sending) {
       // form a JSON-formatted string:
       String jsonString = "{\"name\":\"";
@@ -152,9 +118,9 @@ void loop() {
         jsonString +="\",\"params\":\"";
         jsonString += msgFields[2];
       }
-      
+
       jsonString +="\"}";
-  
+
       // print it:
       Serial.println(jsonString);
     }
@@ -224,4 +190,3 @@ String checkMessageReceived () {
   return returnMsg;
 
 }
-
