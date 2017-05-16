@@ -1,10 +1,3 @@
-SerialToJSON.js
-
-A serial-to-web example using node.js, node-serialport, and socket.io. This example
-converts a serial string into a JSON object and sends that via webSocket
-
-To use this, you should read up on <a href="nodejs.org">node.js</a>
-
 To install it:
 * make sure you've installed node.js
 * either clone the project in git or download it
@@ -18,7 +11,7 @@ You should end up with a new directory called node_modules, which will include s
 
 To run it, enter:
 
-	node SerialToJSON.js portname
+	node index.js portname
 	
 Where portname is the name of your serial port.
 
