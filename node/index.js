@@ -17,7 +17,7 @@
 
 */
 
-var SerialPort = require("serialport");				    // include the serialport library
+var serialport = require("serialport");				    // include the serialport library
 var express = require('express');
 var app = express();                              // start Express framework
 var server = require('http').createServer(app);		// start an HTTP server
@@ -32,20 +32,21 @@ console.log("Listening for new clients on port 8080");
 var connected = false;
 
 // open the serial port. Change the name to the name of your port, just like in Processing and Arduino:
-var myPort = new SerialPort(portName, {
+var myPort = new serialport(portName, {
 	// look for return and newline at the end of each data packet:
-	parser: SerialPort.parsers.readline("\r\n")
+	parser: serialport.parsers.readline("\r\n")
 });
 
+// Find static files under /static.
 app.use( express.static( path.join(__dirname, 'static') ) )
 
-// respond to web GET requests with the index.html page:
+// Respond to web GET requests with the index.html page.
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
 
-// listen for new socket.io connections:
+// Listen for new socket.io connections.
 io.sockets.on('connection', function (socket) {
 	// if the client connects:
 	if (!connected) {
@@ -55,14 +56,14 @@ io.sockets.on('connection', function (socket) {
 		myPort.write('c');
     	console.log('user connected');
     	connected = true;
-    }
+  }
 
 	// if the client disconnects:
 	socket.on('disconnect', function () {
 		myPort.write('x');
     	console.log('user disconnected');
     	connected = false;
-  	});
+  });
 
 	// listen for new serial data:
 	myPort.on('data', function (data) {
