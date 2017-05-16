@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		// open a connection to the serial server:
+		var socket = io.connect('http://localhost:8080');
+
+		 // when you get a serialdata event, do this:
+		socket.on('serialEvent', function (data) {
+			// you're going to move the div in the HTML:
+			var element = document.getElementById('textDisplay');
+			element.innerHTML =
+			"Name:" + data.name + "<br>" +
+			"id:" + data.id +
+			"params:" + data.params + 
+			;
+		});
+	</script>
+
+	</head>
+	<body>
+	<div id="textDisplay">Hello</p>
+	</body>
+</html>
