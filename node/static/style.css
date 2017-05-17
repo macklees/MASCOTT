@@ -1,10 +1,12 @@
 body {
   background-color: #FDF6E3;
+  font-family: sans-serif;
+  color: #444;
 }
 
 .data {
   font-family: monospace;
   font-size: 4rem;
   font-weight: bold;
-  padding-bottom: 2rem; 
+  padding-bottom: 2rem;
 }

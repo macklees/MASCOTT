@@ -14,5 +14,8 @@
   "engines": {
     "node": "^6.10.x",
     "npm": "^4.4.x"
+  },
+  "scripts": {
+    "start": "node index.js /dev/cu.usbmodem1441"
   }
 }

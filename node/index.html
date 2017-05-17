@@ -12,23 +12,28 @@
 			var waiting = document.getElementById("waiting");
 			waiting.parentNode.removeChild(waiting);
 
-			var nameEL = document.getElementById('nameEL');
+			var nameEL = document.createElement('div').setAttribute('id', 'nameEL');
 			nameEL.classList.add('data');
-			nameEL.innerHTML = "Name:" + data.name + "<br>";
+			nameEL.innerHTML = "Name: " + data.name + "<br>";
 
-			var idEL = document.getElementById('idEL');
+			var idEL = document.createElement('div').setAttribute('id', 'idEL');
 			idEL.classList.add('data');
-			idEL.innerHTML = "id:" + data.id + "<br>";
+			idEL.innerHTML = "id: " + data.id + "<br>";
 
-			var paramEL = document.getElementById('paramEL');
+			var paramEL = document.createElement('div').setAttribute('id', 'paramEL');
 			paramEL.classList.add('data');
-			paramEL.innerHTML = "params:" + data.params;
+			paramEL.innerHTML = "params: " + data.params;
+
+			var container = document.createElement('div').setAttribute('id', 'container');
+			container.appendChild(nameEL).appendChild(idEL).appendChild(paramEL);
 
 		});
 	</script>
 	<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
-	<div id="waiting">Waiting for data…</p>
+		<h1>Anew Mission Control</h1>
+		<div id="waiting">Waiting for data&hellip;</div>
+
 	</body>
 </html>
