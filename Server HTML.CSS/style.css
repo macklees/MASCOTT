@@ -1,0 +1,42 @@
+html {
+   font-size: 62.5%;
+   height: 100%;
+}
+body {
+    background-color: white;
+    color: black;
+  height: 100%;
+    margin: 0;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.4em; /* equiv 14px */
+    line-height: 1.5; /* adapt to your design */
+}
+/* you shall not pass */
+div, textarea, table, td, th, code, pre, samp {
+    word-wrap: break-word;
+}
+script {
+    display: none;
+}
+.content {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}
+.half1 {
+  flex: 1 auto;
+  border: 1px solid black;
+  height: 100%;
+  background-color: black;
+  color: white;
+}
+.half2 {
+  flex: 1 auto;
+  border: 1px solid black;
+  height: 100%;
+  background-color: white;
+}
+/* .w50 {
+    width: 50%;
+} */
