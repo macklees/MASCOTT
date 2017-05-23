@@ -1,9 +1,7 @@
-
-
 // Mission Control
 
 #include <SoftwareSerial.h>
-#include <button.h>
+#include <Button.h>
 
 const String myNodeName = "Scott";
 
