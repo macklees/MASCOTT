@@ -1,7 +1,9 @@
+
+
 // Mission Control
 
 #include <SoftwareSerial.h>
-#include <Button.h>
+#include <button.h>
 
 const String myNodeName = "Scott";
 
@@ -105,6 +107,7 @@ void loop() {
       sending = false;
       break;
     }
+    sending = true;
 
     if (sending) {
       // form a JSON-formatted string:
