@@ -105,6 +105,7 @@ void loop() {
       sending = false;
       break;
     }
+    sending = true;
 
     if (sending) {
       // form a JSON-formatted string:
