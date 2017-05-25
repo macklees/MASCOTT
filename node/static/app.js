@@ -63,7 +63,7 @@ function siteExists(siteName) {
 }
 
 function dataValid(data) {
-  if ( data..slice(-1) == '\n' ) {
+  if ( data.slice(-1) == '\n' ) {
     return true;
   } else {
     return false;
