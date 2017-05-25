@@ -1,6 +1,31 @@
 // open a connection to the serial server:
 var socket = io.connect('http://localhost:8080');
 
+var kt = document.getElementById("kt");
+var cl = document.getElementById("cl");
+
+function getName(data) {
+  return data.name;
+}
+
+function createSite(siteName, data) {
+  var nameEL = document.createElement('h2');
+  nameEL.classList.add('data', 'data–name');
+  nameEL.innerHTML = "name: " + siteName + "<br>";
+
+  var idEL = document.createElement('div');
+  idEL.classList.add('data', 'data–id');
+  idEL.innerHTML = "id: " + data.id + "<br>";
+
+  var paramEL = document.createElement('div');
+  paramEL.classList.add('data', 'data–params');
+  paramEL.innerHTML = "params: " + data.params;
+
+  var container = document.createElement('div').setAttribute('id', siteName);
+  container.classList.add('half', siteName);
+  container.appendChild(nameEL).appendChild(idEL).appendChild(paramEL);
+}
+
  // when you get a serialdata event, do this:
 socket.on('serialEvent', function (data) {
 
@@ -8,19 +33,20 @@ socket.on('serialEvent', function (data) {
   var waiting = document.getElementById("waiting");
   waiting.parentNode.removeChild(waiting);
 
-  var nameEL = document.createElement('div').setAttribute('id', 'nameEL');
-  nameEL.classList.add('data');
-  nameEL.innerHTML = "name: " + data.name + "<br>";
+  var siteName = processSiteName(getName(data));
 
-  var idEL = document.createElement('div').setAttribute('id', 'idEL');
-  idEL.classList.add('data');
-  idEL.innerHTML = "id: " + data.id + "<br>";
+  function processSiteName(siteName) {
+    if ( siteName == 'Red Rover' ) {
+      console.log('Red rover message recieved.');
+      siteName = 'kt';
+    } else if ( siteName == 'cl' ) {
+      console.log('CL message recieved.');
+      siteName = 'cl';
+    }
+  }
 
-  var paramEL = document.createElement('div').setAttribute('id', 'paramEL');
-  paramEL.classList.add('data');
-  paramEL.innerHTML = "params: " + data.params;
 
-  var container = document.createElement('div').setAttribute('id', 'container');
-  container.appendChild(nameEL).appendChild(idEL).appendChild(paramEL);
+
+  createSite(siteName, data);
 
 });
