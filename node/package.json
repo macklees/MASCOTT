@@ -7,7 +7,7 @@
     "name": "Tom Igoe"
   },
   "dependencies": {
-    "express": "^4.15.2",
+    "express": "^4.15.3",
     "serialport": "^4.0.7",
     "socket.io": "^2.0.1"
   },
@@ -16,6 +16,6 @@
     "npm": "^4.4.x"
   },
   "scripts": {
-    "start": "node index.js /dev/cu.usbmodem1441"
+    "start": "node index.js /dev/cu.usbmodem1451"
   }
 }
