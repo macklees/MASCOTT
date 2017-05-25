@@ -6,14 +6,13 @@
 const String myNodeName = "Anew";
 
 const int ledPin = 13;
-int redPin = 9;
-int greenPin = 10;
-int bluePin = 11;
+const int redPin = 9;
+const int greenPin = 10;
+const int bluePin = 11;
 #define COMMON_ANODE
 
-long heartBeatArray[] = {
-    50, 100, 15, 1200};
-int hbeatIndex = 1;   // this initialization is important or it starts on the "wrong foot"
+long heartBeatArray[] = { 50, 100, 15, 1200 };
+int hbeatIndex = 1;   // this initialization is important or heatbeat starts on the "wrong foot"
 long prevMillis;
 
 const int beepPin = 5;
@@ -52,7 +51,7 @@ void setup()  {
 
 void loop() {
 
-  // heartbeat param
+  // heartbeat timing
   heartBeat(2.5);
 
   // check to see if any complete incoming messages are ready
@@ -148,21 +147,22 @@ void loop() {
     //Serial.print("my second field contained the number = ");
     //Serial.println(aNumber);
 
-    // and then you could do something like this, if that 2nd field is your message type code:
-//    switch (aNumber) {
-//      case 1:
-//        // message code = 1 action
-//        Serial.println("code 1");
-//        break;
-//      case 2:
-//        // message code = 2 action
-//        Serial.println("code 2");
-//        break;
-//      default:
-//        // if nothing else matches, do the default
-//        Serial.println("code unknown");
-//        break;
-//    }
+    // Special handling for certain codes
+   switch (aNumber) {
+     case 1:
+       // message code = 1 action
+       Serial.println("code 1");
+       break;
+     case 2:
+       // message code = 2 action
+       Serial.println("code 2");
+       setColor(255, 0, 0); // aqua
+       break;
+     default:
+       // if nothing else matches, do the default
+       Serial.println("code unknown");
+       break;
+   }
 
   }
 
@@ -225,7 +225,7 @@ void heartBeat(float tempo){
         if (hbeatIndex > 3) hbeatIndex = 0;
 
         if ((hbeatIndex % 2) == 0){
-            setColor(255, 255, 255); // red
+            setColor(0, 255, 255); // aqua
             delay((int)heartBeatArray[hbeatIndex]) ;
             setColor(0, 0, 0); // off
         }
@@ -235,3 +235,5 @@ void heartBeat(float tempo){
 
     }
 }
+
+
