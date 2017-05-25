@@ -3,7 +3,7 @@
 #include <SoftwareSerial.h>
 #include <Button.h>
 
-const String myNodeName = "Scott";
+const String myNodeName = "Anew";
 
 const int ledPin = 13;
 int redPin = 9;
