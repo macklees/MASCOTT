@@ -16,6 +16,6 @@
     "npm": "^4.4.x"
   },
   "scripts": {
-    "start": "node index.js /dev/cu.usbmodem1451"
+    "start": "node index.js /dev/cu.usbmodem1441"
   }
 }

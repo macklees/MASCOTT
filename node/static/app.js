@@ -13,7 +13,7 @@ function processSiteName(siteName) {
     console.log('Red rover message recieved.');
     siteName = 'kt';
   } else if ( siteName == 'New World' ) {
-    console.log('CL message recieved.');
+    console.log('New World message recieved.');
     siteName = 'cl';
   }
 }
@@ -21,7 +21,7 @@ function processSiteName(siteName) {
 function createSite(siteName, data) {
   var nameEL = document.createElement('h2');
   nameEL.classList.add('data', 'data–name');
-  nameEL.innerHTML = "name: " + siteName + "<br>";
+  nameEL.innerHTML = "name: " + siteName;
 
   var idEL = document.createElement('div');
   idEL.classList.add('data', 'data–id');
@@ -36,6 +36,32 @@ function createSite(siteName, data) {
   container.appendChild(nameEL).appendChild(idEL).appendChild(paramEL);
 }
 
+function refreshSite(siteName) {
+  if ( document.getElementById(siteName) ) {
+    console.log('Site exists. Commencing teardown.');
+
+    var oldSiteData = document.getElementById(siteName);
+    oldSiteData.parentNode.removeChild(oldSiteData);
+  }
+}
+
+function refreshSite2(siteName, data) {
+  if ( siteExists(siteName) ) {
+    console.log('Site exists. Commencing refresh.');
+
+    document.querySelectorAll('#' + siteName + '.data–id').innerHTML = "id: " + data.id;
+    document.querySelectorAll('#' + siteName + '.data–params').innerHTML = "params: " + data.params;
+  }
+}
+
+function siteExists(siteName) {
+  if ( document.getElementById(siteName) ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
  // when you get a serialdata event, do this:
 socket.on('serialEvent', function (data) {
 
@@ -45,6 +71,10 @@ socket.on('serialEvent', function (data) {
 
   var siteName = processSiteName(getName(data));
 
-  createSite(siteName, data);
+  if ( siteExists(siteName) ) {
+    refreshSite2(siteName, data);
+  } else {
+    createSite(siteName, data);
+  }
 
 });
