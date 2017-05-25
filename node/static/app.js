@@ -62,19 +62,29 @@ function siteExists(siteName) {
   }
 }
 
+function dataValid(data) {
+  if ( data..slice(-1) == '\n' ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
  // when you get a serialdata event, do this:
 socket.on('serialEvent', function (data) {
 
-  // Remove waiting text.
-  var waiting = document.getElementById("waiting");
-  waiting.parentNode.removeChild(waiting);
+  if ( dataValid(data) ) {
+      // Remove waiting text.
+      var waiting = document.getElementById("waiting");
+      waiting.parentNode.removeChild(waiting);
 
-  var siteName = processSiteName(getName(data));
+      var siteName = processSiteName(getName(data));
 
-  if ( siteExists(siteName) ) {
-    refreshSite2(siteName, data);
-  } else {
-    createSite(siteName, data);
+      if ( siteExists(siteName) ) {
+        refreshSite2(siteName, data);
+      } else {
+        createSite(siteName, data);
+      }
   }
 
 });
