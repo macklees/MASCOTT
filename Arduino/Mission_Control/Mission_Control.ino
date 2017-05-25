@@ -6,7 +6,17 @@
 const String myNodeName = "Scott";
 
 const int ledPin = 13;
-const int beepPin = 12;
+int redPin = 9;
+int greenPin = 10;
+int bluePin = 11;
+#define COMMON_ANODE
+
+long heartBeatArray[] = {
+    50, 100, 15, 1200};
+int hbeatIndex = 1;   // this initialization is important or it starts on the "wrong foot"
+long prevMillis;
+
+const int beepPin = 5;
 
 const byte TAB_CHAR = 0x09;
 const byte NEWLINE_CHAR = 0x0A;
@@ -28,17 +38,22 @@ void setup()  {
 
   // initialize our own serial monitor window
   Serial.begin(9600);
+  // initialize and set the data rate for the SoftwareSerial port -- to send/receive messages via the xBee
+  xBee.begin(9600);
 
   // set pin modes
   pinMode(ledPin, OUTPUT);
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
   pinMode(beepPin, OUTPUT);
-
-  // initialize and set the data rate for the SoftwareSerial port -- to send/receive messages via the xBee
-  xBee.begin(9600);
 }
 
 
 void loop() {
+
+  // heartbeat param
+  heartBeat(2.5);
 
   // check to see if any complete incoming messages are ready
   String msg = checkMessageReceived();
@@ -190,4 +205,33 @@ String checkMessageReceived () {
 
   return returnMsg;
 
+}
+
+void setColor(int red, int green, int blue)
+{
+  #ifdef COMMON_ANODE
+    red = 255 - red;
+    green = 255 - green;
+    blue = 255 - blue;
+  #endif
+  analogWrite(redPin, red);
+  analogWrite(greenPin, green);
+  analogWrite(bluePin, blue);
+}
+
+void heartBeat(float tempo){
+    if ((millis() - prevMillis) > (long)(heartBeatArray[hbeatIndex] * tempo)){
+        hbeatIndex++;
+        if (hbeatIndex > 3) hbeatIndex = 0;
+
+        if ((hbeatIndex % 2) == 0){
+            setColor(255, 255, 255); // red
+            delay((int)heartBeatArray[hbeatIndex]) ;
+            setColor(0, 0, 0); // off
+        }
+        hbeatIndex++;
+        // Serial.println(hbeatIndex);
+        prevMillis = millis();
+
+    }
 }
