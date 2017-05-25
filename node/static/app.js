@@ -8,6 +8,16 @@ function getName(data) {
   return data.name;
 }
 
+function processSiteName(siteName) {
+  if ( siteName == 'Red Rover' ) {
+    console.log('Red rover message recieved.');
+    siteName = 'kt';
+  } else if ( siteName == 'New World' ) {
+    console.log('CL message recieved.');
+    siteName = 'cl';
+  }
+}
+
 function createSite(siteName, data) {
   var nameEL = document.createElement('h2');
   nameEL.classList.add('data', 'data–name');
@@ -34,18 +44,6 @@ socket.on('serialEvent', function (data) {
   waiting.parentNode.removeChild(waiting);
 
   var siteName = processSiteName(getName(data));
-
-  function processSiteName(siteName) {
-    if ( siteName == 'Red Rover' ) {
-      console.log('Red rover message recieved.');
-      siteName = 'kt';
-    } else if ( siteName == 'cl' ) {
-      console.log('CL message recieved.');
-      siteName = 'cl';
-    }
-  }
-
-
 
   createSite(siteName, data);
 
