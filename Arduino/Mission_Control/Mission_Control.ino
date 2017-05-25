@@ -16,6 +16,8 @@ int hbeatIndex = 1;   // this initialization is important or heatbeat starts on 
 long prevMillis;
 
 const int beepPin = 5;
+const int buttonPin = 4;
+Button button(buttonPin, INPUT_PULLUP);
 
 const byte TAB_CHAR = 0x09;
 const byte NEWLINE_CHAR = 0x0A;
@@ -53,6 +55,17 @@ void loop() {
 
   // heartbeat timing
   heartBeat(2.5);
+
+  int action = button.checkButtonAction();
+
+  if (action == Button::CLICKED) {
+
+    String msg = myNodeName + "\t" + "11" + "\n";
+    setColor(0, 255, 0); // aqua
+    tone(beepPin, 440, 150);
+    xBee.print(msg);
+
+  }
 
   // check to see if any complete incoming messages are ready
   String msg = checkMessageReceived();
@@ -235,5 +248,3 @@ void heartBeat(float tempo){
 
     }
 }
-
-

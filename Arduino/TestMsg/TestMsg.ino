@@ -31,7 +31,7 @@ const int MAX_FIELDS = 4;
 SoftwareSerial xBee(2, 3); // (TX, RX) : pins on XBee adapter
 
 // declare a button to be used for input, without a pulldown resistor on the board
-Button butt(7, INPUT_PULLUP);
+Button butt(12, INPUT_PULLUP);
 
 int butter = 0;     // counts the number of times the button has been clicked
 int messages = 0;   // counts the number of messages that have been received
