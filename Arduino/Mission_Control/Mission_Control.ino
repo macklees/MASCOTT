@@ -2,7 +2,8 @@
  *
  *  XBee Message parsing code courtesy of Brock Craft and Andy Davidson.
  *  JSON String conversion adapted from Tom Igoe: http://www.tigoe.com/pcomp/code/arduinowiring/1109/
- *  setColor() and heartBeat() functions by Adafruit.
+ *  setColor() function by Adafruit.
+ *  heartbeat() function by Paul Badger: http://playground.arduino.cc/Main/HeartbeatSketch#sourceblock2
  */
 
 #include <SoftwareSerial.h>
@@ -15,10 +16,6 @@ const int redPin = 9;
 const int greenPin = 10;
 const int bluePin = 11;
 #define COMMON_ANODE
-
-long heartBeatArray[] = { 50, 100, 15, 1200 };
-int hbeatIndex = 1;   // this initialization is important or heatbeat starts on the "wrong foot"
-long prevMillis;
 
 const int beepPin = 5;
 const int buttonPin = 4;
@@ -59,7 +56,7 @@ void setup()  {
 void loop() {
 
   // heartbeat timing
-  heartBeat(2.5);
+  heartBeat(3.0);
 
   int action = button.checkButtonAction();
 
@@ -207,31 +204,14 @@ String checkMessageReceived() {
 
 // Simpler Anode RGB LED control.
 void setColor(int red, int green, int blue) {
-#ifdef COMMON_ANODE
-  red = 255 - red;
-  green = 255 - green;
-  blue = 255 - blue;
-#endif
+  #ifdef COMMON_ANODE
+    red = 255 - red;
+    green = 255 - green;
+    blue = 255 - blue;
+  #endif
   analogWrite(redPin, red);
   analogWrite(greenPin, green);
   analogWrite(bluePin, blue);
-}
-
-// Pacemaker for regulating heartbeat.
-void heartBeat(float tempo) {
-  if ((millis() - prevMillis) > (long)(heartBeatArray[hbeatIndex] * tempo)) {
-    hbeatIndex++;
-    if (hbeatIndex > 3) hbeatIndex = 0;
-
-    if ((hbeatIndex % 2) == 0) {
-      setColor(0, 255, 255); // aqua
-      delay((int)heartBeatArray[hbeatIndex]) ;
-      setColor(0, 0, 0); // off
-    }
-    hbeatIndex++;
-    // Serial.println(hbeatIndex);
-    prevMillis = millis();
-  }
 }
 
 // Forms a JSON-formatted string from msgFields.
@@ -253,3 +233,21 @@ String formJSON(String* msgFields) {
   return jsonString;
 }
 
+// Pacemaker for regulating heartbeat.
+void heartBeat(float tempo){
+  static int hbeatIndex = 1;    // this initialization is not important
+  static long heartBeatArray[] = { 50, 100, 15, 1200 };
+  static long prevMillis;
+
+  if ((millis() - prevMillis) > (long)(heartBeatArray[hbeatIndex] * tempo)){
+    hbeatIndex++;
+    if (hbeatIndex > 3) hbeatIndex = 0;
+
+    if ((hbeatIndex % 2) == 0){     // modulo 2 operator will be true on even counts
+        setColor(0, 255, 255); // aqua
+    } else {
+        setColor(0, 0, 0); // off
+    }
+    prevMillis = millis();
+  }
+}
