@@ -60,27 +60,23 @@ void loop() {
 
   if (action == Button::CLICKED) {
 
-    String msg = myNodeName + "\t" + "11" + "\n";
+    String msg = myNodeName + "\t" + "42" + "\t" + "test" + "\n";
     setColor(0, 255, 0); // aqua
     tone(beepPin, 440, 150);
     xBee.print(msg);
-
+    Serial.println(msg);
   }
 
   // check to see if any complete incoming messages are ready
   String msg = checkMessageReceived();
 
   if (msg.length() > 0) {
-    // if the result is a null string, then there is not a complete message ready
-    // otherwise we have received a complete message and can process it
+    // If the result is a null string, then there is not a complete message ready
+    // otherwise we have received a complete message and can process it.
 
-    // now that we have the message you just recieved in one big string ("msg"),
-    // it is very likely you might want to parse it using String object methods:
-    //  https://www.arduino.cc/en/Reference/StringObject
-
-    // Below is some code that will split out the tab-delimited fields in that big string
+    // The following splits out tab-delimited fields in msg string
     // into an array of strings ("msgFields[]"), each entry representing a different field
-    // (in the order they were received)
+    // (in the order they were received).
 
     String msgFields[MAX_FIELDS];
 
@@ -115,11 +111,11 @@ void loop() {
     }
 
     // now we should have filled the array of Strings 'msgFields' with 'fieldsFound' entries
-    //Serial.print("found fields = ");
-    //Serial.println(fieldsFound);
-    for (int i = 0; i < fieldsFound; i++) {
-      //Serial.println(msgFields[i]);
-    }
+    // Serial.print("found fields = ");
+    // Serial.println(fieldsFound);
+    // for (int i = 0; i < fieldsFound; i++) {
+    //   Serial.println(msgFields[i]);
+    // }
 
     // read for incoming messages. c = send data over serial, x = don't send:
     char inChar = Serial.read();
@@ -132,24 +128,10 @@ void loop() {
       sending = false;
       break;
     }
-    sending = true;
 
     if (sending) {
-      // form a JSON-formatted string:
-      String jsonString = "{\"name\":\"";
-      jsonString += msgFields[0];
-      jsonString +="\",\"id\":\"";
-      jsonString += msgFields[1];
-
-      // Iff params field exists, add its contents to JSON.
-      if (msgFields[2] != false) {
-        jsonString +="\",\"params\":\"";
-        jsonString += msgFields[2];
-      }
-
-      jsonString +="\"}";
-
-      // print it:
+      String jsonString;
+      jsonString = formJSON(msgFields);
       Serial.println(jsonString);
     }
 
@@ -161,24 +143,23 @@ void loop() {
     //Serial.println(aNumber);
 
     // Special handling for certain codes
-   switch (aNumber) {
-     case 1:
-       // message code = 1 action
-       Serial.println("code 1");
-       break;
-     case 2:
-       // message code = 2 action
-       Serial.println("code 2");
-       setColor(255, 0, 0); // aqua
-       break;
-     default:
-       // if nothing else matches, do the default
-       Serial.println("code unknown");
-       break;
-   }
-
+    switch (aNumber) {
+      case 1:
+        // message code = 1 action
+        Serial.println("code 1");
+        break;
+      case 2:
+        // message code = 2 action
+        Serial.println("code 2");
+        setColor(255, 0, 0); // aqua
+        break;
+      default:
+        // if nothing else matches, do the default
+        Serial.println("code unknown");
+        Serial.println(msg);
+        break;
+    }
   }
-
 }
 
 
@@ -220,8 +201,7 @@ String checkMessageReceived () {
 
 }
 
-void setColor(int red, int green, int blue)
-{
+void setColor(int red, int green, int blue) {
   #ifdef COMMON_ANODE
     red = 255 - red;
     green = 255 - green;
@@ -232,7 +212,7 @@ void setColor(int red, int green, int blue)
   analogWrite(bluePin, blue);
 }
 
-void heartBeat(float tempo){
+void heartBeat(float tempo) {
     if ((millis() - prevMillis) > (long)(heartBeatArray[hbeatIndex] * tempo)){
         hbeatIndex++;
         if (hbeatIndex > 3) hbeatIndex = 0;
@@ -245,6 +225,24 @@ void heartBeat(float tempo){
         hbeatIndex++;
         // Serial.println(hbeatIndex);
         prevMillis = millis();
-
     }
 }
+
+String formJSON(String msgFields) {
+  // form a JSON-formatted string:
+  String jsonString = "{\"name\":\"";
+  jsonString += msgFields[0];
+  jsonString +="\",\"id\":\"";
+  jsonString += msgFields[1];
+
+  // Iff params field exists, add its contents to JSON.
+  if (msgFields[2] != false) {
+    jsonString +="\",\"params\":\"";
+    jsonString += msgFields[2];
+  }
+
+  jsonString +="\"}";
+
+  return jsonString;
+}
+
