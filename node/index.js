@@ -72,7 +72,8 @@ io.sockets.on('connection', function (socket) {
 		console.log(data);
 
 		// if ( dataValid(data) ) {
-			// console.log('valid data');
+		// 	console.log('valid data');
+
 			// Convert the string into a JSON object:
 			var serialData = JSON.parse(data);
 

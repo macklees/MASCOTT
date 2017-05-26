@@ -62,7 +62,7 @@ void loop() {
 
   if (action == Button::CLICKED) {
 
-    String msg = siteName + "\t" + "11" + "\t" + "Red Rover" + "\n";
+    String msg = siteName + "\t" + "14" + "\t" + "Red Rover" + "\n";
     setColor(0, 255, 0); // aqua
     tone(beepPin, 440, 150);
     xBee.print(msg);
@@ -251,3 +251,4 @@ void heartBeat(float tempo){
     prevMillis = millis();
   }
 }
+

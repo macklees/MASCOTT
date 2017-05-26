@@ -5,7 +5,6 @@ var kt = document.getElementById("kt");
 var cl = document.getElementById("cl");
 
 function getName(data) {
-
   return data.name;
 }
 
@@ -22,9 +21,9 @@ function processSiteName(siteName) {
 
 function createSite(siteName, data) {
 
-  if (siteExists('waiting')) {
+  if ( document.getElementById('waiting') ) {
     // Remove waiting text if it's still around.
-    var waiting = document.getElementById("waiting");
+    var waiting = document.getElementById('waiting');
     waiting.parentNode.removeChild(waiting);
   }
 
@@ -40,9 +39,12 @@ function createSite(siteName, data) {
   paramEL.classList.add('data', 'data–params');
   paramEL.innerHTML = "params: " + data.params;
 
-  var container = document.createElement('div').setAttribute('id', siteName);
+  var container = document.createElement('div');
+  container.setAttribute('id', siteName);
   container.classList.add('half', siteName);
   container.appendChild(nameEL).appendChild(idEL).appendChild(paramEL);
+
+  document.body.appendChild(container);
 }
 
 function refreshSite(siteName) {
@@ -72,11 +74,6 @@ function siteExists(siteName) {
 }
 
 function dataValid(data) {
-  // if ( data.slice(-1) == '\n' ) {
-  //   return true;
-  // } else {
-  //   return false;
-  // }
   if (typeof data == 'object') {
     return true;
   } else {
