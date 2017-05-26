@@ -22,13 +22,13 @@ var express = require('express');
 var app = express();                              // start Express framework
 var server = require('http').createServer(app);		// start an HTTP server
 var io = require('socket.io').listen(server);		  // filter the server using socket.io
-var path = require("path");
+var path = require('path');
 
 var portName = process.argv[2];						// third word of the command line should be serial port name
-console.log("opening serial port: " + portName);	// print out the port you're listening on
+console.log('opening serial port: ' + portName);	// print out the port you're listening on
 
 server.listen(8080);								// listen for incoming requests on the server
-console.log("Listening for new clients on port 8080");
+console.log('Listening for new clients on port 8080');
 var connected = false;
 
 // open the serial port. Change the name to the name of your port, just like in Processing and Arduino:
@@ -48,9 +48,12 @@ app.get('/', function (req, res) {
 
 // Listen for new socket.io connections.
 io.sockets.on('connection', function (socket) {
+
+	console.log('new connection found');
+
 	// if the client connects:
 	if (!connected) {
-		// clear out any old data from the serial bufffer:
+		// clear out any old data from the serial buffer:
 		myPort.flush();
 		// send a byte to the serial port to ask for data:
 		myPort.write('c');
