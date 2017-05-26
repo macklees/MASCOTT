@@ -1,9 +1,14 @@
-// Mission Control
+/*  Anew Mission Control
+ *
+ *  XBee Message parsing code courtesy of Brock Craft and Andy Davidson.
+ *  JSON String conversion adapted from Tom Igoe: http://www.tigoe.com/pcomp/code/arduinowiring/1109/
+ *  setColor() and heartBeat() functions by Adafruit.
+ */
 
 #include <SoftwareSerial.h>
 #include <Button.h>
 
-const String myNodeName = "Anew";
+const String siteName = "Anew";
 
 const int ledPin = 13;
 const int redPin = 9;
@@ -60,7 +65,7 @@ void loop() {
 
   if (action == Button::CLICKED) {
 
-    String msg = myNodeName + "\t" + "42" + "\t" + "test" + "\n";
+    String msg = siteName + "\t" + "42" + "\t" + "test" + "\n";
     setColor(0, 255, 0); // aqua
     tone(beepPin, 440, 150);
     xBee.print(msg);
@@ -121,17 +126,16 @@ void loop() {
     char inChar = Serial.read();
     bool sending;
     switch (inChar) {
-    case 'c':    // connection open
-      sending = true;
-      break;
-    case 'x':    // connection closed
-      sending = false;
-      break;
+      case 'c':    // connection open
+        sending = true;
+        break;
+      case 'x':    // connection closed
+        sending = false;
+        break;
     }
 
     if (sending) {
-      String jsonString;
-      jsonString = formJSON(msgFields);
+      String jsonString = formJSON(msgFields);
       Serial.println(jsonString);
     }
 
@@ -139,7 +143,7 @@ void loop() {
     // that really represents a number and you want to use it as an integer? here's what you do:
     // -- remember that the index of field #2 is really [1].
     int aNumber = msgFields[1].toInt();
-    //Serial.print("my second field contained the number = ");
+    //Serial.print("Field 2: ");
     //Serial.println(aNumber);
 
     // Special handling for certain codes
@@ -167,7 +171,7 @@ void loop() {
 // if it has, the message will be returned to the caller (without the newLine)
 // if not, it will keep accumulating characters from the xBee and just return a null string.
 
-String checkMessageReceived () {
+String checkMessageReceived() {
 
   static String msgBuffer = ""; // buffer to collect incoming message: static instead of global !
   String returnMsg = "";        // the result to return to the caller
@@ -201,47 +205,50 @@ String checkMessageReceived () {
 
 }
 
+// Simpler Anode RGB LED control.
 void setColor(int red, int green, int blue) {
-  #ifdef COMMON_ANODE
-    red = 255 - red;
-    green = 255 - green;
-    blue = 255 - blue;
-  #endif
+#ifdef COMMON_ANODE
+  red = 255 - red;
+  green = 255 - green;
+  blue = 255 - blue;
+#endif
   analogWrite(redPin, red);
   analogWrite(greenPin, green);
   analogWrite(bluePin, blue);
 }
 
+// Pacemaker for regulating heartbeat.
 void heartBeat(float tempo) {
-    if ((millis() - prevMillis) > (long)(heartBeatArray[hbeatIndex] * tempo)){
-        hbeatIndex++;
-        if (hbeatIndex > 3) hbeatIndex = 0;
+  if ((millis() - prevMillis) > (long)(heartBeatArray[hbeatIndex] * tempo)) {
+    hbeatIndex++;
+    if (hbeatIndex > 3) hbeatIndex = 0;
 
-        if ((hbeatIndex % 2) == 0){
-            setColor(0, 255, 255); // aqua
-            delay((int)heartBeatArray[hbeatIndex]) ;
-            setColor(0, 0, 0); // off
-        }
-        hbeatIndex++;
-        // Serial.println(hbeatIndex);
-        prevMillis = millis();
+    if ((hbeatIndex % 2) == 0) {
+      setColor(0, 255, 255); // aqua
+      delay((int)heartBeatArray[hbeatIndex]) ;
+      setColor(0, 0, 0); // off
     }
+    hbeatIndex++;
+    // Serial.println(hbeatIndex);
+    prevMillis = millis();
+  }
 }
 
-String formJSON(String msgFields) {
-  // form a JSON-formatted string:
+// Forms a JSON-formatted string from msgFields.
+String formJSON(String* msgFields) {
+
   String jsonString = "{\"name\":\"";
   jsonString += msgFields[0];
-  jsonString +="\",\"id\":\"";
+  jsonString += "\",\"id\":\"";
   jsonString += msgFields[1];
 
   // Iff params field exists, add its contents to JSON.
   if (msgFields[2] != false) {
-    jsonString +="\",\"params\":\"";
+    jsonString += "\",\"params\":\"";
     jsonString += msgFields[2];
   }
 
-  jsonString +="\"}";
+  jsonString += "\"}";
 
   return jsonString;
 }
