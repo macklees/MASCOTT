@@ -49,8 +49,6 @@ app.get('/', function (req, res) {
 // Listen for new socket.io connections.
 io.sockets.on('connection', function (socket) {
 
-	console.log('new connection found');
-
 	// if the client connects:
 	if (!connected) {
 		// clear out any old data from the serial buffer:
@@ -70,11 +68,17 @@ io.sockets.on('connection', function (socket) {
 
 	// listen for new serial data:
 	myPort.on('data', function (data) {
-		// Convert the string into a JSON object:
-		var serialData = JSON.parse(data);
-		// for debugging, you should see this in the terminal window:
+
 		console.log(data);
-		// send a serial event to the web client with the data:
-		socket.emit('serialEvent', serialData);
+
+		// if ( dataValid(data) ) {
+			// console.log('valid data');
+			// Convert the string into a JSON object:
+			var serialData = JSON.parse(data);
+
+			// send a serial event to the web client with the data:
+			socket.emit('serialEvent', serialData);
+		// }
+
 	});
 });

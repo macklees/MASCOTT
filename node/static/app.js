@@ -5,6 +5,7 @@ var kt = document.getElementById("kt");
 var cl = document.getElementById("cl");
 
 function getName(data) {
+
   return data.name;
 }
 
@@ -16,9 +17,17 @@ function processSiteName(siteName) {
     console.log('New World message recieved.');
     siteName = 'cl';
   }
+  return siteName;
 }
 
 function createSite(siteName, data) {
+
+  if (siteExists('waiting')) {
+    // Remove waiting text if it's still around.
+    var waiting = document.getElementById("waiting");
+    waiting.parentNode.removeChild(waiting);
+  }
+
   var nameEL = document.createElement('h2');
   nameEL.classList.add('data', 'data–name');
   nameEL.innerHTML = "name: " + siteName;
@@ -63,7 +72,12 @@ function siteExists(siteName) {
 }
 
 function dataValid(data) {
-  if ( data.slice(-1) == '\n' ) {
+  // if ( data.slice(-1) == '\n' ) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+  if (typeof data == 'object') {
     return true;
   } else {
     return false;
@@ -72,11 +86,10 @@ function dataValid(data) {
 
  // when you get a serialdata event, do this:
 socket.on('serialEvent', function (data) {
+  console.log(data);
 
   if ( dataValid(data) ) {
-      // Remove waiting text.
-      var waiting = document.getElementById("waiting");
-      waiting.parentNode.removeChild(waiting);
+      console.log('valid data object r3c13v3d.');
 
       var siteName = processSiteName(getName(data));
 

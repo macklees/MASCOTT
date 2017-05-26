@@ -62,11 +62,11 @@ void loop() {
 
   if (action == Button::CLICKED) {
 
-    String msg = siteName + "\t" + "42" + "\t" + "test" + "\n";
+    String msg = siteName + "\t" + "11" + "\t" + "Red Rover" + "\n";
     setColor(0, 255, 0); // aqua
     tone(beepPin, 440, 150);
     xBee.print(msg);
-    Serial.println(msg);
+//    Serial.println(msg);
   }
 
   // check to see if any complete incoming messages are ready
@@ -130,6 +130,7 @@ void loop() {
         sending = false;
         break;
     }
+    sending = true;
 
     if (sending) {
       String jsonString = formJSON(msgFields);
@@ -144,22 +145,22 @@ void loop() {
     //Serial.println(aNumber);
 
     // Special handling for certain codes
-    switch (aNumber) {
-      case 1:
-        // message code = 1 action
-        Serial.println("code 1");
-        break;
-      case 2:
-        // message code = 2 action
-        Serial.println("code 2");
-        setColor(255, 0, 0); // aqua
-        break;
-      default:
-        // if nothing else matches, do the default
-        Serial.println("code unknown");
-        Serial.println(msg);
-        break;
-    }
+    // switch (aNumber) {
+    //   case 1:
+    //     // message code = 1 action
+    //     Serial.println("code 1");
+    //     break;
+    //   case 2:
+    //     // message code = 2 action
+    //     Serial.println("code 2");
+    //     setColor(255, 0, 0); // aqua
+    //     break;
+    //   default:
+    //     // if nothing else matches, do the default
+    //     Serial.println("code unknown");
+    //     Serial.println(msg);
+    //     break;
+    // }
   }
 }
 
@@ -199,7 +200,6 @@ String checkMessageReceived() {
   }
 
   return returnMsg;
-
 }
 
 // Simpler Anode RGB LED control.
