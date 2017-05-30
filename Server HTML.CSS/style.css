@@ -1,23 +1,16 @@
 html {
-  font-size: 62.5%;
   height: 100%;
 }
 
 body {
-  background-color: white;
-  color: black;
+  background-color: #F1F1F1;
+  color: #1D1D1D;
   height: 100%;
   margin: 0;
   font-family: 'Roboto Mono', monospace;
-  font-size: 1.4em;
-  /* equiv 14px */
-  line-height: 1.5;
-  /* adapt to your design */
 }
 
-
 /* you shall not pass */
-
 div,
 textarea,
 table,
@@ -29,6 +22,14 @@ samp {
   word-wrap: break-word;
 }
 
+.logo {
+  position: fixed;
+  height: 50px;
+  width: 50px;
+  top: calc(50% - 25px);
+  right: calc(50% - 25px);
+}
+
 script {
   display: none;
 }
@@ -37,22 +38,18 @@ script {
   display: flex;
   height: 100%;
   width: 100%;
-  background-color: black;
+  font-size: 1.4em;
+  line-height: 1.5;
 }
 
-.half1 {
+.half {
   flex: 1 auto;
-  border: 1px solid black;
   height: 100%;
-  background-color: black;
-  color: white;
 }
 
-.half2 {
-  flex: 1 auto;
-  border: 1px solid black;
-  height: 100%;
-  background-color: white;
+.half:nth-child(odd) {
+  background-color: #1D1D1D;
+  color: #F1F1F1;
 }
 
 .Aligner {
