@@ -96,5 +96,8 @@ socket.on('serialEvent', function (data) {
         createSite(siteName, data);
       }
   }
-
 });
+
+function requestMission(event) {
+  socket.emit('missionReqest', '11, Red Rover\n');
+}

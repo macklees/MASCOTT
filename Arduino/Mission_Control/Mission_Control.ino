@@ -62,21 +62,26 @@ void loop() {
 
   if (action == Button::CLICKED) {
 
-    String msg = siteName + "\t" + "14" + "\t" + "Red Rover" + "\n";
+    String outMsg = siteName + "\t" + "14" + "\t" + "Red Rover" + "\n";
     setColor(0, 255, 0); // aqua
     tone(beepPin, 440, 150);
-    xBee.print(msg);
+    xBee.print(outMsg);
 //    Serial.println(msg);
+  } else if (action == Button::HELD_CLICKED) {
+    String outMsg = siteName + "\t" + "42" + "\t" + "Red Rover" + "\n";
+    setColor(255, 60, 0); // aqua
+    tone(beepPin, 220, 250);
+    xBee.print(outMsg);
   }
 
-  // check to see if any complete incoming messages are ready
-  String msg = checkMessageReceived();
+  // Check to see if any complete incoming messages are ready
+  String inMsg = checkMessageReceived();
 
-  if (msg.length() > 0) {
+  if (inMsg.length() > 0) {
     // If the result is a null string, then there is not a complete message ready
     // otherwise we have received a complete message and can process it.
 
-    // The following splits out tab-delimited fields in msg string
+    // The following splits out tab-delimited fields in inMsg string
     // into an array of strings ("msgFields[]"), each entry representing a different field
     // (in the order they were received).
 
@@ -99,16 +104,16 @@ void loop() {
     // individual fields, and reset the field buffer. also increment the counter tracking
     // how many fields we found. if there are more fields in the source string than we have room for,
     // toss any extra ones out so we don't overrun the array limits and cause nasty bugs!
-    for (int i = 0; i < msg.length(); i++) {
-      if (((msg.charAt(i) == TAB_CHAR) ||
-           (msg.charAt(i) == NEWLINE_CHAR)) &&
+    for (int i = 0; i < inMsg.length(); i++) {
+      if (((inMsg.charAt(i) == TAB_CHAR) ||
+           (inMsg.charAt(i) == NEWLINE_CHAR)) &&
           (fieldsFound < MAX_FIELDS)) {
         msgFields[fieldsFound] = buf;
         buf = "";
         fieldsFound++;
       }
       else {
-        buf += msg.charAt(i);
+        buf += inMsg.charAt(i);
       }
     }
 
@@ -158,17 +163,85 @@ void loop() {
     //   default:
     //     // if nothing else matches, do the default
     //     Serial.println("code unknown");
-    //     Serial.println(msg);
+    //     Serial.println(inMsg);
     //     break;
     // }
   }
+
+  // Check to see if any complete outgoing messages are ready to send.
+  String newMission = checkSerialInput();
+
+  if (newMission.length() > 0) {
+    // Like inMsg code above, this handles recieved Serial input and the requisite output.
+
+    String msgFields[2];
+
+    // intialize them all to null strings each time we start processing a new message
+    for (int i = 0; i < 2; i++) {
+      msgFields[i] = "";
+    }
+
+    // initialize temporary variables used to process each message
+    int fieldsFound = 0;
+    String buf = "";
+
+    // now, loop through the big single string, character by character, looking for the
+    // field delimiter (a comma, or a NEWLINE if it is the last field). accumulate non-delimiters
+    // in a small buffer, and then use that to transfer to the array of fields.
+    // once we find a delimiter, we know we've just finished getting a field, so
+    // store it in the next available element of the array that is accumulating the
+    // individual fields, and reset the field buffer. also increment the counter tracking
+    // how many fields we found. if there are more fields in the source string than we have room for,
+    // toss any extra ones out so we don't overrun the array limits and cause nasty bugs!
+    for (int i = 0; i < newMission.length(); i++) {
+      if (
+        ((newMission.charAt(i) == ',') ||
+        (newMission.charAt(i) == NEWLINE_CHAR)) &&
+        (fieldsFound < 2)
+      ) {
+        msgFields[fieldsFound] = buf;
+        buf = "";
+        fieldsFound++;
+      }
+      else {
+        buf += newMission.charAt(i);
+      }
+    }
+
+    startNewMission(msgFields[1].toInt(), msgFields[2]);
+  }
+} // End loop().
+
+// Send a new mission code out over the xBee, provided a misison code and reciepient rover name.
+void startNewMission(int missionCode, String roverName) {
+  String outMsg = siteName + "\t" + String(missionCode) + "\t" + roverName + "\n";
+  setColor(0, 255, 80); // seafoam green
+  tone(beepPin, 440, 450);
+  xBee.print(outMsg);
 }
 
+// Checks for new inout over the serial port and returns a string of data, ended by a newline character.
+String checkSerialInput() {
+  static String inputBuffer = "";
+  String returnInput = "";
 
-// checks to see if a complete message (one terminated by a newLine) has been received
-// if it has, the message will be returned to the caller (without the newLine)
-// if not, it will keep accumulating characters from the xBee and just return a null string.
+  while (Serial.available() > 0) {
+      char received = Serial.read();
+      inputBuffer.concat(received);
 
+      // Process message when new line character is received.
+      if (received == '\n') {
+          returnInput = inputBuffer;
+          inputBuffer = "";
+      }
+  }
+
+  return returnInput;
+}
+
+// Checks to see if a complete message (one terminated by a newLine) has been received.
+// If it has, the message will be returned to the caller (without the newLine).
+// If not, it will keep accumulating characters from the xBee and just return a null string.
 String checkMessageReceived() {
 
   static String msgBuffer = ""; // buffer to collect incoming message: static instead of global !
@@ -251,4 +324,3 @@ void heartBeat(float tempo){
     prevMillis = millis();
   }
 }
-
