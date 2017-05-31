@@ -66,7 +66,7 @@ io.sockets.on('connection', function (socket) {
     	connected = false;
   });
 
-	// listen for new serial data:
+	// Listen for new serial data.
 	myPort.on('data', function (data) {
 
 		console.log(data);
@@ -82,25 +82,28 @@ io.sockets.on('connection', function (socket) {
 		// }
 
 	});
-});
 
-// Handle incoming Socket.IO message from the browser.
-io.sockets.on('missionReqest', function (data) {
+	// Handle incoming Socket.IO message from the browser.
+	socket.on('missionRequest', function (mission) {
 
-		// The message received as a String
-		console.log(data);
+			// The message is received as an object,
+			// convert it to a comma separated string with code and rover.
+			var missionMsg = mission.code + ',' + mission.rover;
 
-		// Sending String character by character
-		for(var i=0; i<data.length; i++){
-				myPort.write(new Buffer(data[i], 'ascii'), function(err, results) {
-						// console.log('Error: ' + err);
-						// console.log('Results ' + results);
-				});
-		}
+			// Sending String character by character
+			for(var i=0; i<missionMsg.length; i++){
+					myPort.write(new Buffer(missionMsg[i], 'ascii'), function(err, results) {
+							// console.log('Error: ' + err);
+							// console.log('Results ' + results);
+					});
+			}
 
-		// Sending the terminate character
-		myPort.write(new Buffer('\n', 'ascii'), function(err, results) {
-				// console.log('err ' + err);
-				// console.log('results ' + results);
-		});
+			// Sending the newline char to signal end of message.
+			myPort.write(new Buffer('\n', 'ascii'), function(err, results) {
+					// console.log('err ' + err);
+					// console.log('results ' + results);
+			});
+
+			console.log('New Mission, ' +  mission.code + ', sent to ' + mission.rover + '.');
+	});
 });

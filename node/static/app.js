@@ -60,8 +60,8 @@ function refreshSite2(siteName, data) {
   if ( siteExists(siteName) ) {
     console.log('Site exists. Commencing refresh.');
 
-    document.querySelectorAll('#' + siteName + '.data–id').innerHTML = "id: " + data.id;
-    document.querySelectorAll('#' + siteName + '.data–params').innerHTML = "params: " + data.params;
+    document.querySelector('#' + siteName + '.data–id').innerHTML = "id: " + data.id;
+    document.querySelector('#' + siteName + '.data–params').innerHTML = "params: " + data.params;
   }
 }
 
@@ -98,6 +98,14 @@ socket.on('serialEvent', function (data) {
   }
 });
 
-function requestMission(event) {
-  socket.emit('missionReqest', '11, Red Rover\n');
+function requestMission() {
+  var code = this.getAttribute('data-code');
+  var rover = this.getAttribute('data-rover');
+  var reqMsg = {code: code, rover: rover};
+
+  console.log(reqMsg);
+  socket.emit('missionRequest', reqMsg);
 }
+
+var el = document.querySelector('button');
+el.addEventListener("click", requestMission, false);

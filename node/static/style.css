@@ -1,13 +1,63 @@
+html {
+  height: 100%;
+}
+
 body {
-	background-color: #F2FAFF;
-	text-align: center;
-	font-family: sans-serif;
-	color: #333;
+  background-color: #F1F1F1;
+  color: #1D1D1D;
+  height: 100%;
+  margin: 0;
+  font-family: 'Roboto Mono', monospace, sans-serif;
+}
+
+.logo {
+  position: fixed;
+  height: 50px;
+  width: 50px;
+  top: calc(50% - 25px);
+  right: calc(50% - 25px);
+}
+
+.content {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  font-size: 1.4em;
+  line-height: 1.5;
+}
+
+.half {
+  flex: 1 auto;
+  height: 100%;
+}
+
+.half:nth-child(odd) {
+  background-color: #1D1D1D;
+  color: #F1F1F1;
 }
 
 .data {
 	font-family: monospace;
 	font-size: 4rem;
 	font-weight: bold;
+	word-wrap: break-word;
 	padding-bottom: 2rem;
+}
+
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Aligner-item {
+  max-width: 50%;
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
 }
