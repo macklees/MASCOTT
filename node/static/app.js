@@ -16,10 +16,10 @@ function processSiteName(siteName) {
     console.log('New World message recieved.');
     siteName = 'cl';
   }
-  return siteName;
+  return siteID;
 }
 
-function createSite(siteName, data) {
+function createSite(siteID, siteName, data) {
 
   if ( document.getElementById('waiting') ) {
     // Remove waiting text if it's still around.
@@ -29,7 +29,7 @@ function createSite(siteName, data) {
 
   var nameEL = document.createElement('h2');
   nameEL.classList.add('data', 'data–name');
-  nameEL.innerHTML = "name: " + siteName;
+  nameEL.innerHTML = siteName;
 
   var idEL = document.createElement('div');
   idEL.classList.add('data', 'data–id');
@@ -40,33 +40,33 @@ function createSite(siteName, data) {
   paramEL.innerHTML = "params: " + data.params;
 
   var container = document.createElement('div');
-  container.setAttribute('id', siteName);
-  container.classList.add('half', siteName);
+  container.setAttribute('id', siteID);
+  container.classList.add('half', siteID);
   container.appendChild(nameEL).appendChild(idEL).appendChild(paramEL);
 
   document.body.appendChild(container);
 }
 
-function refreshSite(siteName) {
-  if ( document.getElementById(siteName) ) {
+function refreshSite(siteID) {
+  if ( document.getElementById(siteID) ) {
     console.log('Site exists. Commencing teardown.');
 
-    var oldSiteData = document.getElementById(siteName);
+    var oldSiteData = document.getElementById(siteID);
     oldSiteData.parentNode.removeChild(oldSiteData);
   }
 }
 
-function refreshSite2(siteName, data) {
-  if ( siteExists(siteName) ) {
+function refreshSite2(siteID, data) {
+  if ( siteExists(siteID) ) {
     console.log('Site exists. Commencing refresh.');
 
-    document.querySelector('#' + siteName + '.data–id').innerHTML = "id: " + data.id;
-    document.querySelector('#' + siteName + '.data–params').innerHTML = "params: " + data.params;
+    document.querySelector('#' + siteID + '.data–id').innerHTML = "id: " + data.id;
+    document.querySelector('#' + siteID + '.data–params').innerHTML = "params: " + data.params;
   }
 }
 
-function siteExists(siteName) {
-  if ( document.getElementById(siteName) ) {
+function siteExists(siteID) {
+  if ( document.getElementById(siteID) ) {
     return true;
   } else {
     return false;
@@ -88,12 +88,13 @@ socket.on('serialEvent', function (data) {
   if ( dataValid(data) ) {
       console.log('valid data object r3c13v3d.');
 
-      var siteName = processSiteName(getName(data));
+      var siteName = getName(data);
+      var siteID = processSiteName(siteName);
 
-      if ( siteExists(siteName) ) {
-        refreshSite2(siteName, data);
+      if ( siteExists(siteID) ) {
+        refreshSite2(siteID, data);
       } else {
-        createSite(siteName, data);
+        createSite(siteID, siteName, data);
       }
   }
 });
