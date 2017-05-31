@@ -217,6 +217,10 @@ void startNewMission(int missionCode, String roverName) {
   String outMsg = siteName + "\t" + String(missionCode) + "\t" + roverName + "\n";
   setColor(0, 255, 80); // seafoam green
   tone(beepPin, 440, 450);
+//  Serial.print("Sent new mission, ");
+//  Serial.print(missionCode);
+//  Serial.print(", to ");
+//  Serial.println(roverName);
   xBee.print(outMsg);
 }
 

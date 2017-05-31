@@ -1,8 +1,11 @@
-// open a connection to the serial server:
-var socket = io.connect('http://localhost:8080');
+"use strict";
 
-var kt = document.getElementById("kt");
-var cl = document.getElementById("cl");
+// open a connection to the serial server:
+const socket = io.connect('http://localhost:8080');
+
+// Might not use these.
+const kt = document.getElementById("kt");
+const cl = document.getElementById("cl");
 
 function getName(data) {
   return data.name;
@@ -19,8 +22,8 @@ function processSiteName(siteName) {
   return siteID;
 }
 
+// Start up new site with fresh data.
 function createSite(siteID, siteName, data) {
-
   if ( document.getElementById('waiting') ) {
     // Remove waiting text if it's still around.
     var waiting = document.getElementById('waiting');
@@ -56,6 +59,7 @@ function refreshSite(siteID) {
   }
 }
 
+// Improved refresh that doesn't tear down DOM, just replaces values where needed.
 function refreshSite2(siteID, data) {
   if ( siteExists(siteID) ) {
     console.log('Site exists. Commencing refresh.');
@@ -99,14 +103,28 @@ socket.on('serialEvent', function (data) {
   }
 });
 
+// Send event to server with data object.
 function requestMission() {
   var code = this.getAttribute('data-code');
-  var rover = this.getAttribute('data-rover');
+  var rover = this.getAttribute('data-site');
   var reqMsg = {code: code, rover: rover};
 
   console.log(reqMsg);
   socket.emit('missionRequest', reqMsg);
 }
 
-var el = document.querySelector('button');
-el.addEventListener("click", requestMission, false);
+// Handle buttons.
+// var el = document.querySelector('button');
+// el.addEventListener("click", requestMission, false);
+
+// for each iterates over a list and runs a function for each element
+// var forEach = Array.prototype.forEach;
+
+// for each element in the list returned by the CSS selector
+Array.prototype.forEach.call(
+  document.querySelectorAll.bind(document)('button'),
+  function(el) {
+    // add an event listener to the click event
+    el.addEventListener("click", requestMission, false);
+  }
+);
