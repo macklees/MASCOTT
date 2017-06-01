@@ -11,8 +11,8 @@ body {
 }
 
 header {
-  padding: 1.5% 2.5%;
-  border-bottom: 10px solid #1D1D1D;
+  /*border-bottom: 10px solid #1D1D1D;*/
+
 }
 
 h1 {
@@ -23,7 +23,20 @@ h1 {
 }
 
 nav {
+  display: flex;
   font-size: 1.1em;
+}
+
+.nav-half {
+  flex: 1 auto;
+  height: 100%;
+  min-width: 45%;
+  padding: 3.5% 2.5%;
+}
+
+.nav-half:nth-child(odd) {
+  background-color: #1D1D1D;
+  color: #F1F1F1;
 }
 
 h2.data–name {
@@ -74,11 +87,11 @@ h2.data–name {
   margin-right: 1em;
 }
 
-.logo-fixed {
+.logo-half {
   position: fixed;
   height: 50px;
   width: 50px;
-  top: calc(50% - 25px);
+  top: 25px;
   right: calc(50% - 25px);
 }
 
@@ -92,6 +105,11 @@ button {
   color: #1D1D1D;
   border: 1px solid #1D1D1D;
   border-radius: 5px;
+}
+
+.nav-half:nth-child(odd) button {
+  border-color: #F1F1F1;
+  color: #F1F1F1;
 }
 
 button:hover {
