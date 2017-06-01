@@ -12,6 +12,19 @@ body {
 
 header {
   padding: 1.5% 2.5%;
+  border-bottom: 10px solid #1D1D1D;
+}
+
+h1 {
+  font-family: Apercu;
+  font-size: 3rem;
+  margin: 0 0 0.2em;
+}
+
+h2.data–name {
+  font-size: 1.3rem;
+  padding: 4% 2.5%;
+  margin: 0;
 }
 
 #waiting {
@@ -24,13 +37,12 @@ header {
   display: flex;
   height: 100%;
   width: 100%;
-  font-size: 1.4em;
-  line-height: 1.5;
 }
 
 .half {
   flex: 1 auto;
   height: 100%;
+  min-width: 50%;
 }
 
 .half:nth-child(odd) {
@@ -39,12 +51,16 @@ header {
 }
 
 .data {
-	font-family: monospace;
-	font-size: 4rem;
-	font-weight: bold;
+  font-size: 3rem;
 	word-wrap: break-word;
 	padding-bottom: 2rem;
   padding: 1.5% 2.5%;
+  margin: 0 2.5%;
+}
+
+.data–time {
+  margin-top: 3rem;
+  font-size: 0.85rem;
 }
 
 .logo {
@@ -53,22 +69,4 @@ header {
   width: 50px;
   top: calc(50% - 25px);
   right: calc(50% - 25px);
-}
-
-.Aligner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.Aligner-item {
-  max-width: 50%;
-}
-
-.Aligner-item--top {
-  align-self: flex-start;
-}
-
-.Aligner-item--bottom {
-  align-self: flex-end;
 }

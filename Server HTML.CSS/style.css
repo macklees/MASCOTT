@@ -69,3 +69,8 @@ script {
 .Aligner-item--bottom {
   align-self: flex-end;
 }
+
+
+var p = document.getElementById("kt");
+var p_prime = p.cloneNode(true);
+document.getElementById('content').appendChild(p_prime);

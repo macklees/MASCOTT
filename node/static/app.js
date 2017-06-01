@@ -103,12 +103,17 @@ function createSite(siteID, siteName, data) {
   paramEL.classList.add('data', 'data–params');
   paramEL.innerHTML = processParamOutput(data.id, data.params);
 
+  var timeEL = document.createElement('div');
+  timeEL.classList.add('data', 'data–time');
+  timeEL.innerHTML = Date.now();
+
   var container = document.createElement('div');
   container.setAttribute('id', siteID);
   container.classList.add('half', siteID);
   container.appendChild(nameEL);
   container.appendChild(idEL)
   container.appendChild(paramEL);
+  container.appendChild(timeEL);
 
   document.getElementById('content').appendChild(container);
 }
@@ -130,6 +135,9 @@ function refreshSite2(siteID, data) {
 
   var paramEl = document.body.querySelector('#' + siteID + ' .data–params');
   paramEl.innerHTML = processParamOutput(data.id, data.params);
+
+  var timeEl = document.body.querySelector('#' + siteID + ' .data–time');
+  timeEl.innerHTML = Date.now();
 }
 
 function siteExists(siteID) {
