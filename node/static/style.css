@@ -10,15 +10,17 @@ body {
   font-family: 'Roboto Mono', monospace, sans-serif;
 }
 
-.logo {
-  position: fixed;
-  height: 50px;
-  width: 50px;
-  top: calc(50% - 25px);
-  right: calc(50% - 25px);
+header {
+  padding: 1.5% 2.5%;
 }
 
-.content {
+#waiting {
+  padding: 1.5% 2.5%;
+  border-top: 1px solid #1D1D1D;
+  width: 100%;
+}
+
+#content {
   display: flex;
   height: 100%;
   width: 100%;
@@ -42,6 +44,15 @@ body {
 	font-weight: bold;
 	word-wrap: break-word;
 	padding-bottom: 2rem;
+  padding: 1.5% 2.5%;
+}
+
+.logo {
+  position: fixed;
+  height: 50px;
+  width: 50px;
+  top: calc(50% - 25px);
+  right: calc(50% - 25px);
 }
 
 .Aligner {

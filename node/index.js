@@ -71,15 +71,14 @@ io.sockets.on('connection', function (socket) {
 
 		console.log(data);
 
-		// if ( dataValid(data) ) {
-		// 	console.log('valid data');
+		if ( data.charAt(0) == '{' ) { // Ignore input that isn't JSON. Ignore the piss-poor validation.
 
 			// Convert the string into a JSON object:
 			var serialData = JSON.parse(data);
 
 			// send a serial event to the web client with the data:
 			socket.emit('serialEvent', serialData);
-		// }
+		}
 
 	});
 
@@ -88,21 +87,21 @@ io.sockets.on('connection', function (socket) {
 
 			// The message is received as an object,
 			// convert it to a comma separated string with code and rover.
-			var missionMsg = mission.code + ',' + mission.rover;
+			var missionMsg = String(mission.code + ',' + mission.rover + '\n');
+			var asciiMissionMsg = Buffer.from(missionMsg).toString('ascii');
+			console.log(asciiMissionMsg);
 
 			// Sending String character by character
 			for(var i=0; i<missionMsg.length; i++){
-					myPort.write(new Buffer(missionMsg[i], 'ascii'), function(err, results) {
-							// console.log('Error: ' + err);
-							// console.log('Results ' + results);
-					});
+
+					myPort.write(missionMsg[i]);
 			}
 
 			// Sending the newline char to signal end of message.
-			myPort.write(new Buffer('\n', 'ascii'), function(err, results) {
-					// console.log('err ' + err);
-					// console.log('results ' + results);
-			});
+			// myPort.write(new Buffer(, 'ascii'), function(err, results) {
+			// 		// console.log('err ' + err);
+			// 		// console.log('results ' + results);
+			// });
 
 			console.log('New Mission, ' +  mission.code + ', sent to ' + mission.rover + '.');
 	});

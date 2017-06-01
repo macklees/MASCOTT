@@ -142,6 +142,10 @@ void loop() {
       Serial.println(jsonString);
     }
 
+    // for (int i = 0; i < MAX_FIELDS; i++) {
+    //   Serial.println(msgFields[i]);
+    // }
+
     // finally, these fields are all strings, so what if you know that the second field, e.g., is a string
     // that really represents a number and you want to use it as an integer? here's what you do:
     // -- remember that the index of field #2 is really [1].
@@ -208,19 +212,21 @@ void loop() {
       }
     }
 
-    startNewMission(msgFields[1].toInt(), msgFields[2]);
+    // Serial.println(msgFields*);
+    startNewMission(msgFields[0], msgFields[1]);
   }
 } // End loop().
 
 // Send a new mission code out over the xBee, provided a misison code and reciepient rover name.
-void startNewMission(int missionCode, String roverName) {
-  String outMsg = siteName + "\t" + String(missionCode) + "\t" + roverName + "\n";
+void startNewMission(String missionCode, String roverName) {
+  String outMsg = siteName + "\t" + missionCode + "\t" + roverName + "\n";
   setColor(0, 255, 80); // seafoam green
   tone(beepPin, 440, 450);
 //  Serial.print("Sent new mission, ");
 //  Serial.print(missionCode);
 //  Serial.print(", to ");
 //  Serial.println(roverName);
+  // Serial.print(outMsg);
   xBee.print(outMsg);
 }
 

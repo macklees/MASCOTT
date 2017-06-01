@@ -12,18 +12,79 @@ function getName(data) {
 }
 
 function processSiteName(siteName) {
+  var siteID;
   if ( siteName == 'Red Rover' ) {
     console.log('Red rover message recieved.');
-    siteName = 'kt';
+    siteID = 'kt';
   } else if ( siteName == 'New World' ) {
     console.log('New World message recieved.');
-    siteName = 'cl';
+    siteID = 'cl';
   }
   return siteID;
 }
 
+function missionIDToName(missionID) {
+  missionID = parseInt(missionID); // Typecast string as int.
+  var missionName;
+  switch (missionID) {
+    case 9:
+      missionName = 'Direction';
+      break;
+    case 11:
+      missionName = 'Temperature';
+      break;
+    case 12:
+      missionName = 'Humidity';
+      break;
+    case 14:
+      missionName = 'Life';
+      break;
+    case 42:
+      missionName = 'Unobtainium';
+      break;
+    default:
+      missionName = 'Unknown Mission';
+    }
+  return missionName;
+}
+
+function processParamOutput(missionID, param) {
+  missionID = parseInt(missionID); // Typecast string as int.
+  var paramOutput;
+  switch (missionID) {
+    case 9:
+      paramOutput = 'Moving ' + param;
+      break;
+    case 11:
+      paramOutput = 'Currently ' + param + 'ºC';
+      break;
+    case 12:
+      paramOutput = param + '%';
+      break;
+    case 14:
+      if (param == 'true') {
+        paramOutput = '';
+      } else {
+        paramOutput = 'None detected';
+      }
+      break;
+    case 42:
+    if (param == 'true') {
+      paramOutput = 'Detected';
+    } else {
+      paramOutput = 'None detected';
+    }
+      break;
+    default:
+      paramOutput = '';
+    }
+  return paramOutput;
+}
+
 // Start up new site with fresh data.
 function createSite(siteID, siteName, data) {
+  console.log('Creating new site.');
+
   if ( document.getElementById('waiting') ) {
     // Remove waiting text if it's still around.
     var waiting = document.getElementById('waiting');
@@ -36,37 +97,39 @@ function createSite(siteID, siteName, data) {
 
   var idEL = document.createElement('div');
   idEL.classList.add('data', 'data–id');
-  idEL.innerHTML = "id: " + data.id + "<br>";
+  idEL.innerHTML = missionIDToName(data.id);
 
   var paramEL = document.createElement('div');
   paramEL.classList.add('data', 'data–params');
-  paramEL.innerHTML = "params: " + data.params;
+  paramEL.innerHTML = processParamOutput(data.id, data.params);
 
   var container = document.createElement('div');
   container.setAttribute('id', siteID);
   container.classList.add('half', siteID);
-  container.appendChild(nameEL).appendChild(idEL).appendChild(paramEL);
+  container.appendChild(nameEL);
+  container.appendChild(idEL)
+  container.appendChild(paramEL);
 
-  document.body.appendChild(container);
+  document.getElementById('content').appendChild(container);
 }
 
-function refreshSite(siteID) {
-  if ( document.getElementById(siteID) ) {
-    console.log('Site exists. Commencing teardown.');
+function refreshSite(siteID, siteName, data) {
+  console.log('Site exists. Commencing teardown.');
 
-    var oldSiteData = document.getElementById(siteID);
-    oldSiteData.parentNode.removeChild(oldSiteData);
-  }
+  var oldSiteData = document.getElementById(siteID);
+  oldSiteData.parentNode.removeChild(oldSiteData);
+
+  createSite(siteID, siteName, data);
 }
 
 // Improved refresh that doesn't tear down DOM, just replaces values where needed.
 function refreshSite2(siteID, data) {
-  if ( siteExists(siteID) ) {
-    console.log('Site exists. Commencing refresh.');
+  console.log('Site exists. Commencing refresh.');
+  var codeEl = document.body.querySelector('#' + siteID + ' .data–id');
+  codeEl.innerHTML = missionIDToName(data.id);
 
-    document.querySelector('#' + siteID + '.data–id').innerHTML = "id: " + data.id;
-    document.querySelector('#' + siteID + '.data–params').innerHTML = "params: " + data.params;
-  }
+  var paramEl = document.body.querySelector('#' + siteID + ' .data–params');
+  paramEl.innerHTML = processParamOutput(data.id, data.params);
 }
 
 function siteExists(siteID) {
@@ -97,6 +160,7 @@ socket.on('serialEvent', function (data) {
 
       if ( siteExists(siteID) ) {
         refreshSite2(siteID, data);
+        // refreshSite(siteID, siteName, data);
       } else {
         createSite(siteID, siteName, data);
       }

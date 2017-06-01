@@ -5,12 +5,25 @@
 		<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
-		<h1>Anew Mission Control</h1>
-		<div id="waiting">Waiting for data&hellip;</div>
+		<header>
+			<h1>Anew Mission Control</h1>
+			<nav>
+				<span class="rovername">New World</span>
+				<button data-code="9" data-site="New World">Direction</button>
+				<button data-code="12" data-site="New World">Humidity</button>
 
-		<button data-code="11" data-site="Red Rover">Temperature</button>
-		<button data-code="12" data-site="New World">Humidity</button>
-		<button data-code="14" data-site="New World">Life</button>
+				<span class="rovername">Red Rover</span>
+				<button data-code="11" data-site="Red Rover">Temperature</button>
+				<button data-code="14" data-site="Red Rover">Life</button>
+				<button data-code="42" data-site="Red Rover">Unobtainium</button>
+			</nav>
+		</header>
+
+		<main id="content">
+
+			<div id="waiting">Waiting for data&hellip;</div>
+
+		</main>
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="app.js"></script>
