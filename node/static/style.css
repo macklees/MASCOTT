@@ -16,9 +16,14 @@ header {
 }
 
 h1 {
+  display: inline-block;
   font-family: Apercu;
   font-size: 3rem;
   margin: 0 0 0.2em;
+}
+
+nav {
+  font-size: 1.1em;
 }
 
 h2.data–name {
@@ -29,7 +34,6 @@ h2.data–name {
 
 #waiting {
   padding: 1.5% 2.5%;
-  border-top: 1px solid #1D1D1D;
   width: 100%;
 }
 
@@ -64,9 +68,37 @@ h2.data–name {
 }
 
 .logo {
+  display: inline-block;
+  width: 2.5em;
+  height: auto;
+  margin-right: 1em;
+}
+
+.logo-fixed {
   position: fixed;
   height: 50px;
   width: 50px;
   top: calc(50% - 25px);
   right: calc(50% - 25px);
+}
+
+
+button {
+  transition: background-color 0.3s ease;
+  background: none;
+  background-color: transparent;
+  font-size: 1em;
+  font-family: inherit;
+  color: #1D1D1D;
+  border: 1px solid #1D1D1D;
+  border-radius: 5px;
+}
+
+button:hover {
+  color: inherit;
+  background-color: RGBA(29, 29, 29, 0.2);
+}
+
+nav span:last-of-type {
+  padding-left: 2em;
 }
