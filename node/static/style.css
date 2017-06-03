@@ -30,8 +30,8 @@ nav {
 .nav-half {
   flex: 1 auto;
   height: 100%;
-  min-width: 45%;
-  padding: 3.5% 2.5%;
+  min-width: 40%;
+  padding: 3.5% 5%;
 }
 
 .nav-half:nth-child(odd) {
@@ -89,10 +89,10 @@ h2.data–name {
 
 .logo-half {
   position: fixed;
-  height: 50px;
-  width: 50px;
+  height: 3.5rem;
+  width: 3.5rem;
   top: 25px;
-  right: calc(50% - 25px);
+  right: calc(50% - 1.75rem);
 }
 
 
@@ -107,16 +107,16 @@ button {
   border-radius: 5px;
 }
 
-.nav-half:nth-child(odd) button {
-  border-color: #F1F1F1;
-  color: #F1F1F1;
-}
-
 button:hover {
   color: inherit;
   background-color: RGBA(29, 29, 29, 0.2);
 }
 
-nav span:last-of-type {
-  padding-left: 2em;
+.nav-half:nth-child(odd) button {
+  border-color: #F1F1F1;
+  color: #F1F1F1;
+}
+
+.nav-half:nth-child(odd) button:hover {
+  background-color: RGBA(241, 241, 241, 0.2);
 }

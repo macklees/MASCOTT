@@ -37,10 +37,10 @@ function missionIDToName(missionID) {
       missionName = 'Humidity';
       break;
     case 14:
-      missionName = 'Life';
+      missionName = 'Unobtainium';
       break;
     case 42:
-      missionName = 'Unobtainium';
+      missionName = 'Life';
       break;
     default:
       missionName = 'Unknown Mission';
@@ -63,7 +63,7 @@ function processParamOutput(missionID, param) {
       break;
     case 14:
       if (param == 'true') {
-        paramOutput = '';
+        paramOutput = 'Detected';
       } else {
         paramOutput = 'None detected';
       }
