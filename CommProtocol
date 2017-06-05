@@ -1,5 +1,5 @@
-439 Communication Protocol (RFC)
-To ensure consistency in communication, we’ve (tentatively) designed the following specifications for communication codes. These stem from the example code provided by Brock Craft available on Canvas.
+439 Communication Protocol
+To ensure consistency in communication, we have designed the following specifications for communication codes.
 
 This is an example of the concatenated message sting the home base will look for. Each field is delimited by a tab character. The message ending is signaled by a newline character.
 `String msg = site_name + "\t" + msg_code + "\t" + param_1 + "\n";`
@@ -12,7 +12,7 @@ The following fields are mandatory:
 Any response can have as many optional parameter fields after the required fields as needed. These parameter fields ought to add additional information related to the status code. Each unique status code should have its parameters defined below.
 
 Codes
-| Code | Name                  | Parameter Field 1                                          |
+| Code | Name                  | Parameter Field                                            |
 | ---- | --------------------- | ---------------------------------------------------------- |
 | 0    | Unused                |                                                            |
 | 1    | Rover active          |                                                            |
@@ -21,6 +21,7 @@ Codes
 | 4    | Rover direction       | String: (left/right/forward…)                              |
 | 11   | Temperature           | Celsius temperature value                                  |
 | 12   | Humidity              | Humidity value (Relative humidity, expressed as a percent) |
-| 13   | Pressure              | UNUSED Pressure value in (units?)                          |
-| 14   | Magnetic/Ore          | Boolean                                                    |
+| 13   | Pressure              | **UNUSED** Pressure value in (units?)                      |
+| 14   | Light level           | Boolean (Can sustain life / Unsuitable for life)           |
 | 21   | Extraterrestrial life |                                                            |
+| 42   | Unobtainium           | Boolean (Unobtainium found / not found)                    |
