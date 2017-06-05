@@ -8,13 +8,12 @@
 		* socket.io (http://socket.io/#how-to-use)
 		* serialport.js (https://github.com/voodootikigod/node-serialport)
 
-	To call it type:
-		node index.js portname
+	To start server:
+	$ `node index.js [ArduinoPortName]`
+	where [ArduinoPortName] is the path to the serial port you want to open.
 
-	where portname is the path to the serial port you want to open.
-
-	created 1 Nov 2012 by Tom Igoe.
-
+	Initial Socket.io code adapted from Tom Igoe:
+	http://www.tigoe.com/pcomp/code/arduinowiring/1109/
 */
 
 var serialport = require("serialport");				    // include the serialport library

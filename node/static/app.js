@@ -186,13 +186,6 @@ function requestMission() {
 }
 
 // Handle buttons.
-// var el = document.querySelector('button');
-// el.addEventListener("click", requestMission, false);
-
-// for each iterates over a list and runs a function for each element
-// var forEach = Array.prototype.forEach;
-
-// for each element in the list returned by the CSS selector
 Array.prototype.forEach.call(
   document.querySelectorAll.bind(document)('button'),
   function(el) {
