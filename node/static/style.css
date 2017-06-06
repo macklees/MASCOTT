@@ -10,25 +10,51 @@ body {
   font-family: 'Roboto Mono', monospace, sans-serif;
 }
 
-.logo {
-  position: fixed;
-  height: 50px;
-  width: 50px;
-  top: calc(50% - 25px);
-  right: calc(50% - 25px);
+h1 {
+  display: inline-block;
+  font-family: Apercu;
+  font-size: 3rem;
+  margin: 0 0 0.2em;
 }
 
-.content {
+nav {
+  display: flex;
+  font-size: 1.1em;
+}
+
+.nav-half {
+  flex: 1 auto;
+  height: 100%;
+  min-width: 40%;
+  padding: 3.5% 5%;
+}
+
+.nav-half:nth-child(odd) {
+  background-color: #1D1D1D;
+  color: #F1F1F1;
+}
+
+h2.data–name {
+  font-size: 1.3rem;
+  padding: 4% 2.5%;
+  margin: 0;
+}
+
+#waiting {
+  padding: 1.5% 2.5%;
+  width: 100%;
+}
+
+#content {
   display: flex;
   height: 100%;
   width: 100%;
-  font-size: 1.4em;
-  line-height: 1.5;
 }
 
 .half {
   flex: 1 auto;
   height: 100%;
+  min-width: 50%;
 }
 
 .half:nth-child(odd) {
@@ -37,27 +63,55 @@ body {
 }
 
 .data {
-	font-family: monospace;
-	font-size: 4rem;
-	font-weight: bold;
+  font-size: 3rem;
 	word-wrap: break-word;
 	padding-bottom: 2rem;
+  padding: 1.5% 2.5%;
+  margin: 0 2.5%;
 }
 
-.Aligner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.data–time {
+  margin-top: 3rem;
+  font-size: 0.85rem;
 }
 
-.Aligner-item {
-  max-width: 50%;
+.logo {
+  display: inline-block;
+  width: 2.5em;
+  height: auto;
+  margin-right: 1em;
 }
 
-.Aligner-item--top {
-  align-self: flex-start;
+.logo-half {
+  position: fixed;
+  height: 3.5rem;
+  width: 3.5rem;
+  top: 25px;
+  right: calc(50% - 1.75rem);
 }
 
-.Aligner-item--bottom {
-  align-self: flex-end;
+
+button {
+  transition: background-color 0.3s ease;
+  background: none;
+  background-color: transparent;
+  font-size: 1em;
+  font-family: inherit;
+  color: #1D1D1D;
+  border: 1px solid #1D1D1D;
+  border-radius: 5px;
+}
+
+button:hover {
+  color: inherit;
+  background-color: RGBA(29, 29, 29, 0.2);
+}
+
+.nav-half:nth-child(odd) button {
+  border-color: #F1F1F1;
+  color: #F1F1F1;
+}
+
+.nav-half:nth-child(odd) button:hover {
+  background-color: RGBA(241, 241, 241, 0.2);
 }
